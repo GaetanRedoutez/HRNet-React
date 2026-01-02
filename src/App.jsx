@@ -2,13 +2,14 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
 import { Footer } from "./components/layout/Footer";
 import { Header } from "./components/layout/Header";
 import { CurrentEmployeesPage } from "./pages/employee";
+import { employeeLoader } from "./pages/employee/employeeLoader";
 import { HomePage } from "./pages/home";
 
 const Layout = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <div className="max-w-[1440px] mx-auto flex flex-1 flex-col p-4">
+      <div className="mx-auto flex max-w-[1440px] flex-1 flex-col p-4">
         <Outlet />
       </div>
       <Footer />
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       {
         path: "current-employees",
         element: <CurrentEmployeesPage />,
+        loader: employeeLoader,
       },
     ],
   },

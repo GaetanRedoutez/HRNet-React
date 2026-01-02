@@ -1,11 +1,15 @@
+import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { departments } from "../../utils/departments";
 import { states } from "../../utils/states";
 import { DateSelect } from "../form/DateSelect";
 import { Input } from "../form/Input";
 import { Select } from "../form/Select";
+import employeeService from "../../service/employee.service";
 
 export const EmployeeForm = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const getMinDate = () => {
     const today = new Date();
     const minDate = new Date(
@@ -27,27 +31,26 @@ export const EmployeeForm = () => {
     return maxDate.toISOString().split("T")[0];
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
     const formData = new FormData(e.target);
     const newEmployee = Object.fromEntries(formData.entries());
-    const storedEmployees = JSON.parse(localStorage.getItem("employees")) || [];
-    const exists = storedEmployees.some(
-      (emp) =>
-        emp.firstName === newEmployee.firstName &&
-        emp.lastName === newEmployee.lastName &&
-        emp.dateOfBirth === newEmployee.dateOfBirth,
-    );
 
-    if (exists) {
-      toast.error("Employee already exists!");
-    } else {
+    try {
+      await employeeService.createEmployee(newEmployee);
       toast.success("Employee created successfully!");
-      storedEmployees.push(newEmployee);
-      localStorage.setItem("employees", JSON.stringify(storedEmployees));
+      e.target.reset();
+    } catch (error) {
+      if (error.message === "Employee already exists!") {
+        toast.error("Employee already exists!");
+      } else {
+        toast.error("Failed to create employee. Is the server running?");
+      }
+    } finally {
+      setIsSubmitting(false);
     }
-
-    e.target.reset();
   };
 
   return (
@@ -128,9 +131,10 @@ export const EmployeeForm = () => {
 
       <button
         type="submit"
-        className="mt-6 w-full rounded-md bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+        disabled={isSubmitting}
+        className="mt-6 w-full rounded-md bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       >
-        Submit
+        {isSubmitting ? "Saving..." : "Submit"}
       </button>
       <ToastContainer />
     </form>
