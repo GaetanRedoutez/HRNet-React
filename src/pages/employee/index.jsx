@@ -1,46 +1,46 @@
+import { useState } from "react";
 import { useLoaderData } from "react-router";
-import { states } from "../../utils/states";
+import { EmployeeTable } from "../../components/employee/EmployeeTable";
+import { EmployeeTableHeader } from "../../components/employee/EmployeeTableHeader";
+import { Pagination } from "../../components/common/Pagination/Pagination";
+import { usePagination } from "../../components/common/Pagination/usePagination";
 
 export const CurrentEmployeesPage = () => {
   const employees = useLoaderData();
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Start Date</th>
-          <th>Department</th>
-          <th>Date of Birth</th>
-          <th>Street</th>
-          <th>City</th>
-          <th>State</th>
-          <th>Zip Code</th>
-        </tr>
-      </thead>
+  const [filteredEmployees, setFilteredEmployees] = useState(employees);
 
-      {!employees || employees.length === 0 ? (
-        <p>No employees found.</p>
-      ) : (
-        <tbody>
-          {employees.map((employee, index) => (
-            <tr key={index} className="capitalize">
-              <td>{employee.firstName}</td>
-              <td>{employee.lastName}</td>
-              <td>{employee.startDate}</td>
-              <td>{employee.department}</td>
-              <td>{employee.dateOfBirth}</td>
-              <td>{employee.street}</td>
-              <td>{employee.city}</td>
-              <td>
-                {states.find((state) => state.value === employee.state).label ||
-                  employee.state}
-              </td>
-              <td>{employee.zipCode}</td>
-            </tr>
-          ))}
-        </tbody>
-      )}
-    </table>
+  const {
+    currentPage,
+    setCurrentPage,
+    entriesPerPage,
+    changeEntriesPerPage,
+    paginatedData,
+    totalPages,
+    startIndex,
+    endIndex,
+    totalEntries,
+  } = usePagination(filteredEmployees, 10);
+
+  return (
+    <div className="flex w-full flex-col gap-4 p-4">
+      <EmployeeTableHeader
+        employees={employees}
+        setFilteredEmployees={setFilteredEmployees}
+        entriesPerPage={entriesPerPage}
+        setEntriesPerPage={changeEntriesPerPage}
+        setCurrentPage={setCurrentPage}
+      />
+
+      <EmployeeTable employees={paginatedData} />
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        startIndex={startIndex}
+        endIndex={endIndex}
+        totalEntries={totalEntries}
+      />
+    </div>
   );
 };

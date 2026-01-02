@@ -9,7 +9,7 @@ const Layout = () => {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <div className="mx-auto flex max-w-[1440px] flex-1 flex-col p-4">
+      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col p-4">
         <Outlet />
       </div>
       <Footer />
