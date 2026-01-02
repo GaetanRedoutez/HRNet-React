@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useLoaderData } from "react-router";
 import { EmployeeTable } from "../../components/employee/EmployeeTable";
 import { EmployeeTableHeader } from "../../components/employee/EmployeeTableHeader";
-import { Pagination } from "../../components/common/Pagination/Pagination";
-import { usePagination } from "../../components/common/Pagination/usePagination";
+import { Pagination } from "../../components/common/Pagination";
+import { usePagination } from "../../hooks/usePagination";
 
 export const CurrentEmployeesPage = () => {
   const employees = useLoaderData();
