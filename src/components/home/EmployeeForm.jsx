@@ -1,11 +1,11 @@
 import { useState } from "react";
-import employeeService from "../../service/employee.service";
 import { departments } from "../../utils/departments";
 import { states } from "../../utils/states";
 import { DateSelect } from "../form/DateSelect";
 import { Input } from "../form/Input";
 import { Select } from "../form/Select";
-import { toast } from "../toast/toast";
+import employeeService from "../../service/employee.service";
+import { toast } from "../ui/toast/toast";
 
 export const EmployeeForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,7 +46,7 @@ export const EmployeeForm = () => {
       if (error.message === "Employee already exists!") {
         toast.error("Employee already exists!");
       } else {
-        toast.error("Failed to create employee.");
+        toast.error("Failed to create employee. Is the server running?");
       }
     } finally {
       setIsSubmitting(false);
