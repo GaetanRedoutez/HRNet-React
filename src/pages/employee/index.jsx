@@ -4,10 +4,13 @@ import { Pagination } from "../../components/common/Pagination";
 import { EmployeeTable } from "../../components/employee/EmployeeTable";
 import { EmployeeTableHeader } from "../../components/employee/EmployeeTableHeader";
 import { usePagination } from "../../hooks/usePagination";
+import { useSort } from "../../hooks/useSort";
 
 export const CurrentEmployeesPage = () => {
   const employees = useLoaderData();
   const [filteredEmployees, setFilteredEmployees] = useState(employees);
+
+  const { sortedItems, requestSort, sortConfig } = useSort(filteredEmployees);
 
   const {
     currentPage,
@@ -19,7 +22,7 @@ export const CurrentEmployeesPage = () => {
     startIndex,
     endIndex,
     totalEntries,
-  } = usePagination(filteredEmployees, 10);
+  } = usePagination(sortedItems, 10);
 
   return (
     <div className="flex w-full flex-col gap-4 p-4">
@@ -31,8 +34,11 @@ export const CurrentEmployeesPage = () => {
         setCurrentPage={setCurrentPage}
       />
 
-      <EmployeeTable employees={paginatedData} />
-
+      <EmployeeTable
+        employees={paginatedData}
+        requestSort={requestSort}
+        sortConfig={sortConfig}
+      />
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
