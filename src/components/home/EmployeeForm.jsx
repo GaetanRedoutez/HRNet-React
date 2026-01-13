@@ -5,8 +5,7 @@ import { DateSelect } from "../form/DateSelect";
 import { Input } from "../form/Input";
 import { Select } from "../form/Select";
 import employeeService from "../../service/employee.service";
-import { toast } from "../ui/toast/toast";
-import { Modal } from "../ui/Modal";
+import { Modal, toast } from "@gaetanredoutez/hrnet-ui";
 
 export const EmployeeForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
