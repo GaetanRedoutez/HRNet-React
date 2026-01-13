@@ -1,5 +1,11 @@
-import React from "react";
-
+/**
+ * A reusable Modal component that renders its children inside a modal dialog.
+ * The modal includes a backdrop and can be closed by clicking outside the content area.
+ *
+ * @param {Object} props - The props object.
+ * @param {React.ReactNode} props.children - The content to be displayed inside the modal.
+ * @param {Function} props.onClose - The callback function to be invoked when the modal is closed.
+ */
 export const Modal = ({ children, onClose }) => {
   return (
     <div

@@ -39,6 +39,18 @@ function showToast(type, message, duration = 3000) {
   }, duration);
 }
 
+/**
+ * An object containing methods to display different types of toast notifications.
+ *
+ * @property {Function} success - Displays a success toast notification.
+ * @param {string} message - The message to display in the success toast.
+ *
+ * @property {Function} error - Displays an error toast notification.
+ * @param {string} message - The message to display in the error toast.
+ *
+ * @property {Function} info - Displays an informational toast notification.
+ * @param {string} message - The message to display in the informational toast.
+ */
 export const toast = {
   success: (message) => showToast("success", message),
   error: (message) => showToast("error", message),
